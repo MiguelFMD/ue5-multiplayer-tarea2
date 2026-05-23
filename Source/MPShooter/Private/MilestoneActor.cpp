@@ -13,12 +13,12 @@ AMilestoneActor::AMilestoneActor(const FObjectInitializer& ObjectInitializer)
 {
 	PrimaryActorTick.bCanEverTick = false;
 	
-	// 1. Este actor debe ser replicable para sincronizarse con todos los clientes
+	//replicable para sincronizarse con todos los clientes
 	bReplicates = true;
 
 	RootComponent = ObjectInitializer.CreateDefaultSubobject<USceneComponent>(this, TEXT("RootComponent"));
 
-	// 2. Malla Estática
+	//malla
 	MeshComponent = ObjectInitializer.CreateDefaultSubobject<UStaticMeshComponent>(this, TEXT("MeshComponent"));
 	MeshComponent->SetupAttachment(RootComponent);
 
@@ -28,7 +28,7 @@ AMilestoneActor::AMilestoneActor(const FObjectInitializer& ObjectInitializer)
 	if (MeshFinder.Succeeded()) MeshComponent->SetStaticMesh(MeshFinder.Object);
 	if (MaterialFinder.Succeeded()) MeshComponent->SetMaterial(0, MaterialFinder.Object);
 
-	// 3. Caja de Colisión
+	//colision
 	CollisionBox = ObjectInitializer.CreateDefaultSubobject<UBoxComponent>(this, TEXT("CollisionBox"));
 	CollisionBox->SetupAttachment(RootComponent);
 	CollisionBox->SetBoxExtent(FVector(200.f, 200.f, 200.f));
@@ -106,10 +106,9 @@ void AMilestoneActor::OnRep_IsAchieved()
 {
 	if (bIsAchieved)
 	{
-		// 4. Modificar su aspecto (Ej: Color Verde brillante o Dorado)
 		if (MeshMID) MeshMID->SetVectorParameterValue(TEXT("Color"), FLinearColor(0.0f, 1.0f, 0.0f, 1.0f));
 
-		// 5. Spawn de un efecto (Si tienes un NiagaraSystem asignado en el Blueprint/Editor)
+		
 		if (AchievementEffect) UNiagaraFunctionLibrary::SpawnSystemAtLocation(GetWorld(), AchievementEffect, GetActorLocation());
 	}
 }
