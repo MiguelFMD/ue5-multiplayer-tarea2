@@ -28,6 +28,14 @@ public:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
+	public:
+		UPROPERTY(ReplicatedUsing = OnRep_Color, Transient, BlueprintReadOnly, Category = "Player")
+		FLinearColor Color;
+			
+	private:
+		UFUNCTION()
+			void OnRep_Color();	
+
 public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Player")
 		class UMaterialInstanceDynamic* MeshMID;
@@ -43,13 +51,31 @@ public:
 	UPROPERTY(EditAnywhere,BlueprintReadWrite,Category="Input")
 	class UInputAction* inputLook;
 	UPROPERTY(EditAnywhere,BlueprintReadWrite,Category="Input")
-	class UInputAction* inputFire;		
+	class UInputAction* inputFire;
+
+public:
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components")
+		class USceneComponent* WeaponHandle;
+
+	UPROPERTY(ReplicatedUsing = OnRep_Weapon, Transient, VisibleAnywhere, BlueprintReadOnly, Category = "Weapon")
+		class AWeapon* Weapon;
+
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Weapon")
+		float AimTraceDistance;
+
+private:
+	UFUNCTION()
+		void OnRep_Weapon();	
 
 private:
 	void OnMoveForward(const FInputActionValue& value);
 	void OnMoveRight(const FInputActionValue& value);
 	void OnMoveUp(const FInputActionValue& value);
 	void OnLook(const FInputActionValue& value);
-	void OnFire(const FInputActionValue& value);	
-
+	void OnFire(const FInputActionValue& value);
+	
+public:
+	virtual void PostInitializeComponents() override;
+	void AuthSetColor(const FLinearColor& InColor);
 };

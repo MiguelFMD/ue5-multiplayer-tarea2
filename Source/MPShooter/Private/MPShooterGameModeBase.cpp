@@ -3,6 +3,7 @@
 
 #include "MPShooterGameModeBase.h"
 #include "ShooterPawn.h"
+#include "MPShooterPlayerController.h"
 
 AMPShooterGameModeBase::AMPShooterGameModeBase(const FObjectInitializer& ObjectInitializer)
 	: Super(ObjectInitializer)
@@ -14,6 +15,7 @@ AMPShooterGameModeBase::AMPShooterGameModeBase(const FObjectInitializer& ObjectI
 	LastPlayerColorIndex = -1;
 
 	DefaultPawnClass = AShooterPawn::StaticClass();
+	PlayerControllerClass = AMPShooterPlayerController::StaticClass();
 
 }
 
@@ -21,5 +23,13 @@ void AMPShooterGameModeBase::SetPlayerDefaults(APawn* PlayerPawn)
 {
 	Super::SetPlayerDefaults(PlayerPawn);
 
-    
+    AShooterPawn* ShooterPawn = Cast<AShooterPawn>(PlayerPawn);
+	if (ShooterPawn) {
+
+		const int32 PlayerColorIndex = (LastPlayerColorIndex + 1) % PlayerColors.Num();
+		if (PlayerColors.IsValidIndex(PlayerColorIndex)) {
+			ShooterPawn->AuthSetColor(PlayerColors[PlayerColorIndex]);
+			LastPlayerColorIndex = PlayerColorIndex;
+		}
+	}
 }

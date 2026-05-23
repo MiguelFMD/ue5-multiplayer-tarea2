@@ -9,6 +9,7 @@
 #include "InputActionValue.h"
 #include "Net/UnrealNetwork.h"
 #include "Engine/CollisionProfile.h"
+#include "Weapon.h"
 
 // Sets default values
 AShooterPawn::AShooterPawn(const FObjectInitializer& ObjectInitializer)
@@ -70,6 +71,13 @@ AShooterPawn::AShooterPawn(const FObjectInitializer& ObjectInitializer)
 		MovementComponent->MaxFlySpeed = 800.0f;
 		MovementComponent->BrakingDecelerationFlying = 5000.0f;
 	}
+
+	WeaponHandle = ObjectInitializer.CreateDefaultSubobject<USceneComponent>(this, TEXT("WeaponHandle"));
+	WeaponHandle->SetUsingAbsoluteScale(true);
+	WeaponHandle->SetupAttachment(MeshComponent ? MeshComponent : RootComponent);
+	WeaponHandle->SetRelativeLocation(FVector(15.0f, 8.0f, 6.0f));
+
+	AimTraceDistance = 3000.0f;
 }
 
 // Called when the game starts or when spawned
@@ -83,6 +91,30 @@ void AShooterPawn::BeginPlay()
 void AShooterPawn::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+	if (Weapon) {
+		const FVector ViewLocation = GetPawnViewLocation();
+		const FTransform ViewTransform = GetMesh() ? GetMesh()->GetComponentTransform() : GetActorTransform();
+		const FVector ViewForward = ViewTransform.GetUnitAxis(EAxis::X);
+
+		const FVector& TraceStart = ViewLocation;
+		const FVector TraceEnd = TraceStart + (ViewForward * AimTraceDistance);
+		const FName ProfileName = UCollisionProfile::BlockAllDynamic_ProfileName;
+		const FCollisionQueryParams QueryParams(TEXT("PlayerAim"), false, this);
+
+		FHitResult Hit;
+		FVector WorldAimLocation;
+		if (GetWorld()->LineTraceSingleByProfile(Hit, TraceStart, TraceEnd, ProfileName, QueryParams)) {
+
+			WorldAimLocation = Hit.ImpactPoint;
+		}
+		else {
+			WorldAimLocation = TraceEnd;
+		}
+
+		const FVector ViewAimLocation = ViewTransform.InverseTransformPosition(WorldAimLocation);
+
+		Weapon->UpdateAimLocation(WorldAimLocation, ViewAimLocation);
+	}
 
 }
 
@@ -156,4 +188,53 @@ void AShooterPawn::OnLook(const FInputActionValue& inputValue) {
 }
 
 void AShooterPawn::OnFire(const FInputActionValue& inputValue) {
+	if (Weapon)
+	{
+		Weapon->HandleFireInput();
+	}
+}
+
+void AShooterPawn::OnRep_Color() {
+	if (MeshMID) {
+		MeshMID->SetVectorParameterValue(TEXT("Color"), Color);
+	}
+}
+
+void AShooterPawn::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const {
+	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
+	DOREPLIFETIME(AShooterPawn, Color);
+	DOREPLIFETIME(AShooterPawn, Weapon);
+}
+
+void AShooterPawn::PostInitializeComponents() {
+	Super::PostInitializeComponents();
+	USkeletalMeshComponent* MeshComponent = GetMesh();
+	if (MeshComponent) {
+		MeshMID = MeshComponent->CreateDynamicMaterialInstance(0);
+	}
+
+	if (HasAuthority()) {
+		FActorSpawnParameters SpawnInfo;
+		SpawnInfo.Owner = this;
+		SpawnInfo.Instigator = this;
+		SpawnInfo.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
+		
+		const FVector SpawnLocation = WeaponHandle->GetComponentLocation();
+		const FRotator SpawnRotation = WeaponHandle->GetComponentRotation();
+
+		Weapon = GetWorld()->SpawnActor<AWeapon>(SpawnLocation, SpawnRotation, SpawnInfo);
+		OnRep_Weapon();
+	}
+}
+
+void AShooterPawn::AuthSetColor(const FLinearColor& InColor) {
+
+	Color = InColor;
+	OnRep_Color();
+}
+
+void AShooterPawn::OnRep_Weapon() {
+	if (Weapon) {
+		Weapon->AttachToComponent(WeaponHandle, FAttachmentTransformRules::SnapToTargetIncludingScale);
+	}
 }

@@ -1,0 +1,29 @@
+// Fill out your copyright notice in the Description page of Project Settings.
+
+#pragma once
+
+#include "CoreMinimal.h"
+#include "GameFramework/PlayerController.h"
+#include "MPShooterPlayerController.generated.h"
+
+/**
+ * 
+ */
+UCLASS()
+class MPSHOOTER_API AMPShooterPlayerController : public APlayerController
+{
+	GENERATED_BODY()
+
+public:	
+	AMPShooterPlayerController();
+
+	virtual void BeginPlay() override;
+
+public:
+	UPROPERTY(EditAnywhere, Category="Input")
+	class UEnhancedInputLocalPlayerSubsystem* InputSystem;
+
+	UPROPERTY(EditAnywhere, Category="Input")
+	class UInputMappingContext* InputMapping;
+	
+};

@@ -32,7 +32,23 @@
 		"directory": "C:\\Program Files\\Epic Games\\UE_5.4\\Engine\\Source"
 	},
 	{
+		"file": "C:\\Users\\xmigu\\Desktop\\master ULL\\tecnologias avanzadas\\MPShooter\\Source\\MPShooter\\Private\\MPShooterPlayerController.cpp",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.38.33130\\bin\\Hostx64\\x64\\cl.exe",
+			"@C:\\Users\\xmigu\\Desktop\\master ULL\\tecnologias avanzadas\\MPShooter\\.vscode\\compileCommands_MPShooter\\MPShooter.1.rsp"
+		],
+		"directory": "C:\\Program Files\\Epic Games\\UE_5.4\\Engine\\Source"
+	},
+	{
 		"file": "C:\\Users\\xmigu\\Desktop\\master ULL\\tecnologias avanzadas\\MPShooter\\Source\\MPShooter\\Private\\ShooterPawn.cpp",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.38.33130\\bin\\Hostx64\\x64\\cl.exe",
+			"@C:\\Users\\xmigu\\Desktop\\master ULL\\tecnologias avanzadas\\MPShooter\\.vscode\\compileCommands_MPShooter\\MPShooter.1.rsp"
+		],
+		"directory": "C:\\Program Files\\Epic Games\\UE_5.4\\Engine\\Source"
+	},
+	{
+		"file": "C:\\Users\\xmigu\\Desktop\\master ULL\\tecnologias avanzadas\\MPShooter\\Source\\MPShooter\\Private\\Weapon.cpp",
 		"arguments": [
 			"C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.38.33130\\bin\\Hostx64\\x64\\cl.exe",
 			"@C:\\Users\\xmigu\\Desktop\\master ULL\\tecnologias avanzadas\\MPShooter\\.vscode\\compileCommands_MPShooter\\MPShooter.1.rsp"
@@ -48,7 +64,23 @@
 		"directory": "C:\\Program Files\\Epic Games\\UE_5.4\\Engine\\Source"
 	},
 	{
+		"file": "C:\\Users\\xmigu\\Desktop\\master ULL\\tecnologias avanzadas\\MPShooter\\Source\\MPShooter\\Public\\MPShooterPlayerController.h",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.38.33130\\bin\\Hostx64\\x64\\cl.exe",
+			"@C:\\Users\\xmigu\\Desktop\\master ULL\\tecnologias avanzadas\\MPShooter\\.vscode\\compileCommands_MPShooter\\MPShooter.1.rsp"
+		],
+		"directory": "C:\\Program Files\\Epic Games\\UE_5.4\\Engine\\Source"
+	},
+	{
 		"file": "C:\\Users\\xmigu\\Desktop\\master ULL\\tecnologias avanzadas\\MPShooter\\Source\\MPShooter\\Public\\ShooterPawn.h",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.38.33130\\bin\\Hostx64\\x64\\cl.exe",
+			"@C:\\Users\\xmigu\\Desktop\\master ULL\\tecnologias avanzadas\\MPShooter\\.vscode\\compileCommands_MPShooter\\MPShooter.1.rsp"
+		],
+		"directory": "C:\\Program Files\\Epic Games\\UE_5.4\\Engine\\Source"
+	},
+	{
+		"file": "C:\\Users\\xmigu\\Desktop\\master ULL\\tecnologias avanzadas\\MPShooter\\Source\\MPShooter\\Public\\Weapon.h",
 		"arguments": [
 			"C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.38.33130\\bin\\Hostx64\\x64\\cl.exe",
 			"@C:\\Users\\xmigu\\Desktop\\master ULL\\tecnologias avanzadas\\MPShooter\\.vscode\\compileCommands_MPShooter\\MPShooter.1.rsp"
