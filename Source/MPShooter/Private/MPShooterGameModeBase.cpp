@@ -1,0 +1,25 @@
+// Fill out your copyright notice in the Description page of Project Settings.
+
+
+#include "MPShooterGameModeBase.h"
+#include "ShooterPawn.h"
+
+AMPShooterGameModeBase::AMPShooterGameModeBase(const FObjectInitializer& ObjectInitializer)
+	: Super(ObjectInitializer)
+{
+
+	PlayerColors.Add(FLinearColor(0.30f, 0.02f, 0.02f));
+	PlayerColors.Add(FLinearColor(0.02f, 0.30f, 0.02f));
+	PlayerColors.Add(FLinearColor(0.02f, 0.02f, 0.3f));
+	LastPlayerColorIndex = -1;
+
+	DefaultPawnClass = AShooterPawn::StaticClass();
+
+}
+
+void AMPShooterGameModeBase::SetPlayerDefaults(APawn* PlayerPawn)
+{
+	Super::SetPlayerDefaults(PlayerPawn);
+
+    
+}
